@@ -21,12 +21,18 @@ To never let a task, request, or document slip through the cracks ever again. As
 
 - Azure-native: Microsoft Graph webhooks for ingestion, Azure Functions for processing
 - Azure AI Search for the search/index layer
-- AI model provider and model must be interchangeable — Claude or OpenAI behind an abstraction, not hard-wired to either
-- Dashboard: Monday.com, Excel, or Power BI (undecided — see open questions)
+- AI models via the Azure AI Foundry model catalog — provider and model swappable by config, never hard-wired
+- Dashboard: Monday.com — flagged items become real work items with owners, statuses, and automations
+
+## Decisions
+
+- **Resolution:** detection + confirm. The system detects a likely resolution (reply sent, doc received) and marks it "probably done," but a human confirms before it fully closes. False "resolved" is how things slip.
+- **Privacy:** business-content only. The classifier discards personal/non-business messages immediately — never stored, indexed, or searchable.
+- **Backfill:** forward-only for the pilot; backfill history once classification quality is trusted, so AI costs aren't paid on history twice.
 
 ## MVP
 
-Pilot on 2–3 real mailboxes: classify + extract, land flagged items on the tracking dashboard, and measure catch-rate for a couple of weeks before going org-wide.
+Pilot on 2–3 real mailboxes: classify + extract, land flagged items on the Monday.com board, and measure catch-rate for a couple of weeks before going org-wide.
 
 ## Links
 
@@ -36,8 +42,7 @@ Pilot on 2–3 real mailboxes: classify + extract, land flagged items on the tra
 
 ## Open questions
 
-- Which dashboard wins — Monday.com, Excel, or Power BI? Needs to feel "live", not a report you remember to open.
-- How does the model abstraction work in practice — Azure AI Foundry model catalog, or a thin in-house provider interface?
-- What closes a flagged item — human dismissal, a detected reply, or both? False "resolved" is how things slip.
-- Privacy/governance: reading every employee's mail needs admin consent and clear ground rules. What's off-limits?
-- Backfill: index historical email from day one, or only go forward?
+- Which 2–3 mailboxes get the pilot?
+- Monday.com board structure — one board with groups per mailbox/account, or a board per team?
+- When backfill happens, how far back — 6 months, 12, everything?
+- Does "business-content only" filtering need its own review pass before anything is discarded, or do we trust the classifier?
